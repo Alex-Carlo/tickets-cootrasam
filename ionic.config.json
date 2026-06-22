@@ -1,0 +1,7 @@
+{
+  "name": "tickets-sam",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
