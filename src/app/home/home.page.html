@@ -1,20 +1,76 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>Ticket System</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="container">
+    <h2>Ticket Management</h2>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <!-- Initialize -->
+    <div class="section">
+      <h3>1. Initialize System</h3>
+      <ion-button (click)="initializeSystem()" [disabled]="isInitialized">
+        {{ isInitialized ? '✓ Initialized' : 'Download Public Key' }}
+      </ion-button>
+      <div *ngIf="initError" class="error">{{ initError }}</div>
+    </div>
+
+    <!-- Generate Ticket -->
+    <div class="section" *ngIf="isInitialized">
+      <h3>2. Generate Ticket</h3>
+      <ion-input placeholder="Passenger ID" [(ngModel)]="passengerId"></ion-input>
+      <ion-input placeholder="Route ID" [(ngModel)]="routeId"></ion-input>
+      <ion-button (click)="generateTicket()">Generate</ion-button>
+      <div *ngIf="generatedTicket" class="info">
+        <p><strong>ID:</strong> {{ generatedTicket.id }}</p>
+        <p><strong>Status:</strong> {{ generatedTicket.status }}</p>
+        <p><strong>Expires:</strong> {{ generatedTicket.expiresAt | date }}</p>
+        <p><strong>Token:</strong> {{ generatedTicket.token.substring(0, 30) }}...</p>
+      </div>
+    </div>
+
+    <!-- Validate Ticket -->
+    <div class="section" *ngIf="isInitialized">
+      <h3>3. Validate Ticket</h3>
+      <ion-input placeholder="Paste JWT token" [(ngModel)]="tokenToValidate"></ion-input>
+      <ion-input placeholder="Route ID (optional)" [(ngModel)]="validateRouteId"></ion-input>
+      <ion-button (click)="validateToken()">Validate</ion-button>
+      <div *ngIf="validationResult" [ngClass]="validationResult.valid ? 'success' : 'error'">
+        <p *ngIf="validationResult.valid">✓ Valid Token</p>
+        <p *ngIf="!validationResult.valid">✗ {{ validationResult.error }}</p>
+        <div *ngIf="validationResult.payload" class="payload">
+          <p><strong>Ticket ID:</strong> {{ validationResult.payload.ticketId }}</p>
+          <p><strong>Route:</strong> {{ validationResult.payload.routeId }}</p>
+          <p><strong>Passenger:</strong> {{ validationResult.payload.passengerId }}</p>
+        </div>
+        <ion-button *ngIf="validationResult.valid" (click)="markAsConsumed()">Mark as Consumed</ion-button>
+      </div>
+    </div>
+
+    <!-- Consumed Tickets -->
+    <div class="section" *ngIf="isInitialized">
+      <h3>4. Consumed Tickets ({{ consumedList.length }})</h3>
+      <div *ngIf="consumedList.length === 0" class="info">No consumed tickets</div>
+      <div *ngFor="let ticket of consumedList" class="consumed-item">
+        <p>{{ ticket.ticketId }}</p>
+        <p class="date">{{ ticket.consumedAt | date:'short' }}</p>
+      </div>
+    </div>
+
+    <!-- Sync -->
+    <div class="section" *ngIf="isInitialized">
+      <h3>5. Sync with Server</h3>
+      <p *ngIf="!navigator.onLine" class="warning">No internet connection</p>
+      <ion-button (click)="syncTickets()" [disabled]="!navigator.onLine || consumedList.length === 0">
+        Sync Now
+      </ion-button>
+      <div *ngIf="syncStatus" [ngClass]="syncStatus.success ? 'success' : 'error'">
+        <p><strong>Synced:</strong> {{ syncStatus.synced }}</p>
+        <p><strong>Skipped:</strong> {{ syncStatus.skipped }}</p>
+        <p><strong>Failed:</strong> {{ syncStatus.failed }}</p>
+      </div>
+    </div>
   </div>
 </ion-content>
