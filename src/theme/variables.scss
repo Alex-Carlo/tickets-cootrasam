@@ -1,2 +1,73 @@
+// Design System — Flat Colors, NO Gradients
 // For information on how to create your own theme, please refer to:
 // https://ionicframework.com/docs/theming/
+
+:root {
+  // === Brand Colors — Flat, No Gradients ===
+  --color-primary: #1a1a2e;
+  --color-primary-light: #16213e;
+  --color-accent: #0f3460;
+  --color-action: #e94560;
+  --color-success: #2ecc71;
+  --color-warning: #f39c12;
+  --color-danger: #e74c3c;
+
+  // === Surface & Text ===
+  --color-surface: #ffffff;
+  --color-surface-alt: #f5f7fa;
+  --color-on-primary: #ffffff;
+  --color-on-surface: #1a1a2e;
+  --color-text-muted: #6c757d;
+  --color-border: #e0e4ea;
+
+  // === Typography ===
+  --font-size-xs: 11px;
+  --font-size-sm: 13px;
+  --font-size-base: 15px;
+  --font-size-md: 17px;
+  --font-size-lg: 20px;
+  --font-size-xl: 24px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  // === Spacing (8pt Grid) ===
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-xxl: 48px;
+
+  // === Radius — Flat, Not Pill ===
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  // === Shadows — Subtle ===
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.12);
+
+  // === Ionic CSS Variable Overrides ===
+  --ion-color-primary: var(--color-primary);
+  --ion-color-primary-contrast: var(--color-on-primary);
+  --ion-color-secondary: var(--color-accent);
+  --ion-color-secondary-contrast: var(--color-on-primary);
+  --ion-color-success: var(--color-success);
+  --ion-color-success-contrast: var(--color-on-primary);
+  --ion-color-warning: var(--color-warning);
+  --ion-color-warning-contrast: #000;
+  --ion-color-danger: var(--color-danger);
+  --ion-color-danger-contrast: var(--color-on-primary);
+
+  // UI Background & Text
+  --ion-background-color: var(--color-surface-alt);
+  --ion-text-color: var(--color-on-surface);
+  --ion-item-background: var(--color-surface);
+  --ion-item-color: var(--color-on-surface);
+  --ion-toolbar-background: var(--color-primary);
+  --ion-toolbar-color: var(--color-on-primary);
+  --ion-card-background: var(--color-surface);
+  --ion-card-text-color: var(--color-on-surface);
+}
